@@ -1,13 +1,22 @@
+import { Character } from '@shared/interfaces/character.interface';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '@environment/environment';
 
- @Injectable({
+@Injectable({
   providedIn: 'root'
 })
 export class CharacterService {
 
   constructor(private http: HttpClient) { }
 
-  searchCharacters(query = '', page = 1) {}
-  getDatails(id:number) {}
+  searchCharacters(query = '', page = 1) {
+    const filter = `${environment.baseUrlAPI}/?name${query}&page=${page}`;
+    return this.http.get<Character[]>(filter);
+  }
+
+  getDatails(id: number) {
+    return this.http.get<Character>(`${environment.baseUrlAPI}/${id}`);
+  }
+
 }
